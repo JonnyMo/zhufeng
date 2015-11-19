@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .img_box img{width: 200px; margin-left: 20px;}
+    </style>
+</head>
+<body>
+    <input id="upload" type="file" multiple="true"/>
+    <div class="img_box">
+
+    </div>
+<script>
+    var oUpload = document.querySelector('#upload');
+    var oImgBox = document.querySelector('.img_box');
+
+    oUpload.addEventListener('change', upload, false);
+    function upload(){
+        var oData = new FormData();
+        for(var i=0; i<this.files.length; i++){
+            oData.append('myfile_' + i, this.files[i]);
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/upload');
+
+        xhr.onload=function(){
+            if(this.status == 200){
+                var res = eval("(" +  this.responseText + ")");
+                var html = '';
+                for(var i =0; i<res.length; i++){
+                    html+='<img src="' + res[i] + '"/>';
+                    console.log(res[i]);
+                }
+                oImgBox.innerHTML = html;
+            }
+        }
+        xhr.send(oData);
+    }
+
+</script>
+</body>
+</html>
