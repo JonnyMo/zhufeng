@@ -32,30 +32,31 @@ console.log(buf);
 var fs = require('fs');
 */
 
-
 /**
- *
- * @param src
- * @param targetStart
- * @param sourceStart
- * @param sourceEnd
+ * @param target 目标buffer
+ * @param targetStart 赋值的start位置
+ * @param targetEnd  赋值的end 为孩子
+ * @param sourceStart 从当前buffer 什么位置开始
+ * @param sourceEnd 从当前buffer 的什么位置结束
  */
-Buffer.prototype.cp =function (target, sourceStart, sourceEnd, targetStart, targetEnd){
-    if(isNaN(sourceStart) || isNaN(sourceEnd)
-        || isNaN(targetStart) || isNaN(targetEnd)){
+Buffer.prototype.cp =function (target, targetStart, targetEnd, sourceStart, sourceEnd) {
+    if (isNaN(sourceStart) || isNaN(sourceEnd)
+        || isNaN(targetStart) || isNaN(targetEnd)) {
         throw Error('参数必须是 数字');
-    }else{
-         if(sourceEnd < sourceStart){
-             throw Error( 'sourceStart: ' + sourceStart +' 必须小于 ' + 'sourceEnd: ' + sourceEnd);
-         }else if(targetEnd < targetStart){
-             throw Error( 'targetStart: ' + targetStart +' 必须小于 ' + 'targetEnd: ' + targetEnd);
-         }
+    } else {
+        if (sourceEnd < sourceStart) {
+            throw Error('sourceStart: ' + sourceStart + ' 必须小于 ' + 'sourceEnd: ' + sourceEnd);
+        } else if (targetEnd < targetStart) {
+            throw Error('targetStart: ' + targetStart + ' 必须小于 ' + 'targetEnd: ' + targetEnd);
+        }
     }
 
-    for(var i=targetStart, n=0; i<targetEnd; i++){
+    for (var i = targetStart, n = 0; i < targetEnd; i++) {
         target[i] = this[n++];
     }
-}
+};
+
+
 var buf1 = new Buffer('高峰');
 var buf2 = new Buffer('珠峰培训');
 buf1.cp(buf2, 0, 6);
